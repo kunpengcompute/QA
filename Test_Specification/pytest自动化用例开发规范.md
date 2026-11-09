@@ -1,9 +1,9 @@
-# Pytest 自动化用例开发规范（v4.0）
+# Pytest 自动化用例开发规范（v4.1）
 
 > 适用范围：蓝区框架（`BaseTestCase`）下基于 pytest 的自动化测试用例开发
 > 依据：《蓝区框架自动化框架切换》9.3.1 用例级别标记、10.3 脚本适配（原文以 CIDA 用例名表述，本规范统一表述为「用例编号」）
 > 结构：命名规范 → 用例编写规范 → 用例标签与级别规范 → 日志使用规范 → 标签执行方式
-> 说明：本文件为 v4.0 版本，v1.0/v2.0 见同目录历史文件 `pytest自动化用例开发规范.md`
+> 说明：本文件为 v4.1 版本，v1.0/v2.0 见同目录历史文件 `pytest自动化用例开发规范.md`
 
 ---
 
@@ -497,18 +497,16 @@ python -m pytest tests/ --case-type Security --junitxml=test_result.xml
 python -m pytest --collect-only --strict-case-info -q
 
 # 1. 版本转测试门槛 —— 仅 P0（Level 0，开发的 HLT / 版本集成转测试）
-python -m pytest --level P0 -x --maxfail=3
+python -m pytest --level P0 --maxfail=3
 
 # 2. B 版本必验 —— P0 + P1（Level 0 门槛 + Level 1 基本）
 python -m pytest --level P0 --level P1 -n auto
+参数插件来源：-n auto → pytest-xdist
 
-# 3. C 版本必验 —— P0~P2（Level 0~2；Level 3 一般按测试策略针对性验证）
-python -m pytest --level P0 --level P1 --level P2 --reruns 2 --reruns-delay 5
-
-# 4. C 版本针对性验证 —— P3（Level 3 一般，按测试策略单独排期）
+# 3. C 版本针对性验证 —— P3（Level 3 一般，按测试策略单独排期）
 python -m pytest --level P3
 
-# 5. 专项 —— 兼容性/安全/可靠性可单独排期
+# 4. 专项 —— 兼容性/安全/可靠性可单独排期
 python -m pytest --case-type Compatibility
 python -m pytest --case-type Security --level P0 --level P1
 python -m pytest --case-type Reliability
